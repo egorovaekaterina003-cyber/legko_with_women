@@ -459,12 +459,17 @@ main.page{padding-bottom:20px!important}
 .sig-ph:before{content:"";position:absolute;inset:0;transform:translate(10px,10px);border:1.5px solid var(--rbl);border-radius:16px}
 .sig-ph img{position:relative!important;left:0!important;top:0!important;margin:0!important;max-width:none!important;display:block;width:100%!important;height:100%!important;object-fit:cover;object-position:50% 30%;border-radius:16px!important;-webkit-mask-image:none!important;mask-image:none!important;mix-blend-mode:normal!important;transform:none!important;box-shadow:0 20px 40px -16px rgba(var(--rbc),.9)!important;filter:saturate(1.05) contrast(1.05)}
 @media(max-width:700px){.sig-ph{width:110px}}
-/* телефон: «перестанешь» → стрелка вниз → «начнёшь», друг под другом */
+/* телефон: две колонки, стрелка вправо */
 @media(max-width:700px){
- .tr .tr-row{grid-template-columns:minmax(0,1fr)!important;justify-items:stretch;row-gap:8px!important;margin-bottom:22px!important}
- .tr .tr-row i{justify-self:center;width:34px!important;height:34px!important;font-size:16px!important}
- .tr-row p.was{margin-right:0!important}
- .tr-row p.now{padding-left:18px!important}
+ .tr .tr-cols{display:grid!important;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr)!important;column-gap:6px!important;margin-bottom:8px}
+ .tr .tr-cols>span{display:block!important}
+ .tr .lbl{font-size:10.5px!important}.tr .lbl.go{font-size:12px!important}
+ .tr .tr-row{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr)!important;column-gap:6px!important;margin-bottom:10px!important}
+ .tr .tr-row i{position:static!important;transform:none!important;justify-self:center;width:28px!important;height:28px!important;font-size:14px!important;box-shadow:none!important}
+ .tr .was:before,.tr .now:before{content:none!important;display:none!important}
+ .tr-row p{display:flex!important;padding:10px 10px!important}
+ .tr-row p.was{margin-right:0!important;font-size:12.5px!important}
+ .tr-row p.now{padding-left:12px!important;font-size:14px!important}
 }
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
