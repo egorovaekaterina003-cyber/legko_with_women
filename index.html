@@ -2803,6 +2803,134 @@ textarea:focus{border-color:var(--lip);outline:none}
 .fb-up .fb-price{margin:0 0 12px!important;font-size:15px!important;color:#fff!important}
 .fb-up .fb-price b{display:inline;margin:0;font:700 18px/1 var(--body,inherit);color:#fff}
 @media (max-width:640px){.fs-row.one{grid-template-columns:minmax(0,1fr)!important}.fs-row.one textarea{grid-column:1/-1!important}}
+/* телефон: таймер справа, как на компьютере */
+@media (max-width:560px){
+ .stop-head.has-timer{grid-template-columns:minmax(0,1fr) auto!important;column-gap:12px!important;padding:16px 14px 14px!important}
+ .stop-head.has-timer > *{grid-column:1!important}
+ .stop-head.has-timer > .sh-timer{grid-column:2!important;grid-row:1 / span 2!important;order:0!important;justify-self:end!important;width:104px!important;height:104px!important;margin:0!important}
+ .stop-head.has-timer > .pace-banner{grid-column:1 / -1!important}
+ .stop-head.has-timer .sh-n{white-space:normal;font-size:9.5px!important;letter-spacing:1.6px!important;line-height:1.35;padding:5px 10px!important}
+ .stop-head.has-timer .sh-d{font-size:13px!important;line-height:1.5!important}
+ .stop-head .sh-timer.live .tc-big{font-size:20px!important}
+ .stop-head .sh-timer.live .tc-k,.stop-head .sh-timer.live .tc-u{font-size:6.5px!important;width:80px!important;letter-spacing:1px!important}
+}
+/* телефон: кнопки внизу — одна слева, другая справа, в одну строку */
+@media (max-width:560px){
+ .foot{flex-wrap:wrap!important;justify-content:space-between!important;gap:10px!important}
+ .foot > button,.foot > a{flex:0 1 auto;min-width:0;padding:12px 14px!important;font-size:13.5px!important;white-space:nowrap}
+ .foot .need{order:3;flex-basis:100%}
+}
+/* телефон: цепочка «подошёл → … → нет» в одну линию */
+@media (max-width:560px){
+ .ch4{grid-template-columns:1fr 1.15fr 1.2fr 1.25fr!important;row-gap:0!important;column-gap:2px}
+ .ch4::before{top:16px!important;left:11%!important;right:13%!important;background:linear-gradient(90deg,#74d6a0 0%,#74d6a0 70%,#e3193d 100%)!important}
+ .c4.x{grid-column:auto!important}
+ .c4{gap:6px!important}
+ .c4 i{width:32px!important;height:32px!important;font-size:13px!important;box-shadow:0 0 0 4px #170609!important}
+ .c4.x i{box-shadow:0 0 0 4px #170609,0 0 16px #e3193d!important}
+ .c4 span{font-size:10px!important;line-height:1.25!important;max-width:none!important}
+ .c4 b{font-size:12.5px!important;padding:6px 8px!important;white-space:normal!important;border-radius:12px!important}
+}
+/* телефон: «мимо» слева, «в точку» справа — по разные стороны */
+@media (max-width:600px){
+ .mr{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;margin-bottom:10px!important}
+ .mc{min-width:0;padding:12px 10px!important;border-radius:14px!important}
+ .mc .mh{display:flex;flex-direction:column-reverse;align-items:flex-start;gap:4px;margin-bottom:8px}
+ .mc .mh span{font-size:9.5px!important;letter-spacing:1.2px!important}
+ .mc .mh b{font-size:10.5px!important;letter-spacing:1.2px!important}
+ .mc q{font-size:12.5px!important;line-height:1.35!important;padding:8px 9px!important;overflow-wrap:anywhere}
+ .mc small{font-size:13px!important;line-height:1.3!important;margin-top:8px!important}
+}
+/* кадры — видоискатель камеры */
+.fs-b{padding:26px 26px 22px!important;margin:12px;border-radius:16px;background:radial-gradient(ellipse 80% 60% at 50% 0%,color-mix(in srgb,var(--c) 14%,transparent),transparent 70%),rgba(0,0,0,.25)}
+.fs-b::before{content:""!important;left:10px!important;top:10px!important;right:10px;bottom:10px!important;width:auto!important;border-radius:0!important;background:
+ linear-gradient(var(--c),var(--c)) left top/22px 2px no-repeat,linear-gradient(var(--c),var(--c)) left top/2px 22px no-repeat,
+ linear-gradient(var(--c),var(--c)) right top/22px 2px no-repeat,linear-gradient(var(--c),var(--c)) right top/2px 22px no-repeat,
+ linear-gradient(var(--c),var(--c)) left bottom/22px 2px no-repeat,linear-gradient(var(--c),var(--c)) left bottom/2px 22px no-repeat,
+ linear-gradient(var(--c),var(--c)) right bottom/22px 2px no-repeat,linear-gradient(var(--c),var(--c)) right bottom/2px 22px no-repeat!important;pointer-events:none;opacity:.9}
+.fs-b::after{content:"● REC";position:absolute;top:20px;right:24px;font:800 10px/1 var(--body);letter-spacing:2px;color:#ff4d6d;animation:recb 1.6s ease-in-out infinite}
+@keyframes recb{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.fs-b::after{animation:none}}
+.fs-b h4{font-size:clamp(26px,4vw,32px)!important;line-height:1.1!important;margin:6px 0 8px!important;padding-right:60px}
+.fs-b > p{font-size:14.5px!important;line-height:1.55!important;color:#e6d2d6!important;margin-bottom:18px!important}
+.fs-row{grid-template-columns:34px minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;align-items:center!important;margin-bottom:10px!important;padding:8px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+.fs-row.one{grid-template-columns:minmax(0,1fr)!important}
+.fs-row span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 16px/1 'Cormorant Garamond',Georgia,serif!important;color:#fff!important;background:linear-gradient(135deg,var(--c),#7a0f2c);box-shadow:0 0 12px -2px var(--c)}
+.fs-row textarea.fi{margin:0!important;min-height:44px}
+.fs-row textarea + textarea{grid-column:auto!important}
+.fs-nx{margin-top:18px!important;padding-top:14px;border-top:1px dashed rgba(255,255,255,.12)}
+@media (max-width:560px){
+ .fs-b{margin:8px;padding:22px 16px 18px!important}
+ .fs-b::after{top:16px;right:16px;font-size:9px}
+ .fs-b h4{padding-right:0;font-size:24px!important;margin-top:14px!important}
+ .fs-row textarea.fi{font-size:12.5px!important;padding:10px 8px!important}
+ .fs-row{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr)!important;gap:6px!important;padding:6px;row-gap:0!important}
+ .fs-row span{width:26px;height:26px;font-size:14px!important}
+ .fs-row textarea.fi{font-size:13.5px!important;padding:10px 10px!important}
+ .fs-row.one{padding:6px}
+}
+/* Валера на итогах: на телефоне ровно по центру справа */
+@media (max-width:560px){
+ .s9v-hd{grid-template-columns:minmax(0,1fr) 118px!important;padding-left:16px!important;align-items:center!important}
+ .s9v-hd img{height:210px!important;object-position:58% 10%!important;align-self:center}
+}
+html,body{overflow-x:clip}
+/* видеоурок: телефон — фото сверху, текст и кнопка под ним */
+@media (max-width:640px){
+ .vid-cine{flex-direction:column;min-height:0!important}
+ .vid-cine img{position:relative!important;right:auto!important;left:auto!important;top:auto!important;bottom:auto!important;display:block;width:100%!important;height:auto!important;aspect-ratio:1/1;object-fit:cover;object-position:60% 30%;max-width:100%!important;opacity:1!important;margin-bottom:-90px;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent)!important;mask-image:linear-gradient(180deg,#000 55%,transparent)!important}
+ .vci-tx{padding:0 20px 22px!important;max-width:none!important;align-items:center;text-align:center}
+ .vci-k{margin-bottom:10px}
+ .vci-h{max-width:none!important;font-size:40px;margin-bottom:10px}
+ .vci-t{margin-bottom:20px}
+ .vci-tx .vc-btn{min-width:0!important;width:100%;padding:12px 18px 12px 12px!important;font-size:14px}
+}
+/* видеоурок: без круга, мягкие линейные переходы */
+.vid-cine img{-webkit-mask-image:linear-gradient(90deg,transparent 4%,#000 38%),linear-gradient(0deg,transparent 8%,#000 34%)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,transparent 4%,#000 38%),linear-gradient(0deg,transparent 8%,#000 34%)!important;mask-composite:intersect!important}
+@media (max-width:640px){
+ .vid-cine img{aspect-ratio:1/1;transform:scale(1.32);transform-origin:62% 30%;margin-bottom:-70px;-webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 78%)!important;mask-image:linear-gradient(180deg,#000 50%,transparent 78%)!important;-webkit-mask-composite:source-over!important;mask-composite:add!important}
+ .vid-cine:hover img{transform:scale(1.32)}
+ .vci-tx{position:relative;z-index:1}
+}
+/* урок «Внимание»: ровная картинка */
+.ph-lesson{grid-template-columns:minmax(0,1fr) 300px!important;gap:28px!important;align-items:center!important}
+.ph-lesson > .ph-frame{display:block!important;align-self:center!important;aspect-ratio:700/874;height:auto!important}
+.ph-lesson > .ph-frame .ph-img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;object-fit:cover!important;object-position:50% 50%!important;-webkit-mask-image:none!important;mask-image:none!important}
+@media (max-width:640px){
+ .ph-lesson{grid-template-columns:1fr!important;gap:18px!important}
+ .ph-lesson > .ph-frame{grid-column:1!important;grid-row:1!important;width:min(240px,70%)!important;max-width:none!important;margin:0 auto!important;justify-self:center}
+ .ph-lesson > div:not(.ph-frame){grid-column:1!important;grid-row:2!important}
+}
+/* видеоурок на компьютере: убрать круглую виньетку фото */
+@media (min-width:641px){.vid-cine img{transform:scale(1.22);transform-origin:52% 38%}.vid-cine:hover img{transform:scale(1.25)}}
+/* Валера рядом с «выбором»: на всю высоту текста */
+.vg-top{grid-template-columns:clamp(120px,28%,200px) minmax(0,1fr)!important;align-items:stretch!important;gap:18px!important}
+.vg-top img{width:100%!important;height:100%!important;min-height:180px;object-fit:cover!important;object-position:50% 12%!important;border-radius:18px!important;box-shadow:0 0 0 1px rgba(255,154,174,.3),0 20px 40px -20px #000!important}
+.vg-top > div{display:flex;flex-direction:column;justify-content:center}
+@media(max-width:600px){.vg-top{grid-template-columns:34% minmax(0,1fr)!important;gap:12px!important}}
+/* все ряды кнопок: «назад» у левого края, «дальше» у правого, в одну строку */
+.foot,.ob-foot{display:flex!important;flex-wrap:wrap!important;justify-content:space-between!important;align-items:center!important;gap:12px!important}
+.foot > .back,.ob-foot > .back{order:1;margin-right:auto!important}
+.foot > .next,.ob-foot > .next{order:2;margin-left:auto!important}
+.foot .need{order:3;flex-basis:100%}
+@media (max-width:560px){
+ .foot,.ob-foot{flex-wrap:wrap!important;gap:10px!important}
+ .foot > .next,.ob-foot > .next,.foot > .back,.ob-foot > .back{width:auto!important;flex-basis:auto!important}
+ .foot > .next,.ob-foot > .next{max-width:calc(100% - 152px)!important}
+ .foot > .back,.ob-foot > .back,.foot > .next,.ob-foot > .next{flex:0 1 auto!important;min-width:0;white-space:normal!important;line-height:1.25!important;text-align:center;padding:12px 16px!important;font-size:14px!important}
+ .foot > .back,.ob-foot > .back{flex-shrink:0!important;white-space:nowrap!important}
+ .foot > .next,.ob-foot > .next{max-width:62%}
+}
+/* «Без баб»: сцена рядом с текстом на компе, сверху на телефоне */
+.bb-row{display:grid!important;grid-template-columns:minmax(0,1fr) 280px!important;gap:24px!important;align-items:stretch!important}
+.bb-row > .bb-tx{grid-column:1!important;grid-row:1!important}
+.bb-row > .bb-stage{grid-column:2!important;grid-row:1!important;align-self:stretch!important;width:auto!important;max-width:none!important;margin:0!important;min-height:340px!important}
+@media (max-width:600px){
+ .bb-row{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+ .bb-row > .bb-stage{grid-column:1!important;grid-row:1!important;width:min(300px,86%)!important;justify-self:center;min-height:0!important;height:360px!important}
+ .bb-row > .bb-tx{grid-row:2!important}
+ .bb-sign{font-size:9px!important;letter-spacing:1.4px!important}
+}
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
