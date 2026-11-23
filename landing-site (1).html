@@ -459,6 +459,13 @@ main.page{padding-bottom:20px!important}
 .sig-ph:before{content:"";position:absolute;inset:0;transform:translate(10px,10px);border:1.5px solid var(--rbl);border-radius:16px}
 .sig-ph img{position:relative!important;left:0!important;top:0!important;margin:0!important;max-width:none!important;display:block;width:100%!important;height:100%!important;object-fit:cover;object-position:50% 30%;border-radius:16px!important;-webkit-mask-image:none!important;mask-image:none!important;mix-blend-mode:normal!important;transform:none!important;box-shadow:0 20px 40px -16px rgba(var(--rbc),.9)!important;filter:saturate(1.05) contrast(1.05)}
 @media(max-width:700px){.sig-ph{width:110px}}
+/* телефон: «перестанешь» → стрелка вниз → «начнёшь», друг под другом */
+@media(max-width:700px){
+ .tr .tr-row{grid-template-columns:minmax(0,1fr)!important;justify-items:stretch;row-gap:8px!important;margin-bottom:22px!important}
+ .tr .tr-row i{justify-self:center;width:34px!important;height:34px!important;font-size:16px!important}
+ .tr-row p.was{margin-right:0!important}
+ .tr-row p.now{padding-left:18px!important}
+}
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
@@ -530,7 +537,7 @@ main.page{padding-bottom:20px!important}
 </footer>
 <script>
 /* ссылки на оплату и цены — вставить, когда будут */
-const PAY = { self: '', os: '' }, PRICE = { self: '', os: '' };
+const PAY = { self: 'https://app.leadpay.ru/checkout/71100/', os: 'https://app.leadpay.ru/checkout/71101/' }, PRICE = { self: '', os: '' };
 document.querySelectorAll('[data-price]').forEach(p => { const v = PRICE[p.dataset.price]; if (v) p.textContent = v; });
 document.querySelectorAll('[data-pay]').forEach(a => { const u = PAY[a.dataset.pay]; if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener'; } else a.addEventListener('click', e => { e.preventDefault(); document.getElementById('pay-note').hidden = false; }); });
 document.querySelectorAll('a[href="#tariffs"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById('tariffs').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); }));
