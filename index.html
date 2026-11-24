@@ -3827,6 +3827,7 @@ function missing(st){
     else if (el.classList.contains('checks')) { if ((v || []).length < (+el.dataset.min || 1)) n++; }
     else if (v === undefined || v === '') n++;
   });
+  if (st && st.querySelector('#fb-os') && S.tarif === 'os' && !S.sentFin) n++;   /* тариф с ОС: дальше — только после отправки Даше */
   return n;
 }
 const word = n => n % 10 === 1 && n % 100 !== 11 ? 'пункт' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'пункта' : 'пунктов');
@@ -4327,14 +4328,18 @@ const sha = async s => { try { const b = await crypto.subtle.digest('SHA-256', n
 const mailOk = m => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m);
 /* проверка оплаты по таблице (лист «Оплаты», туда пишет LeadPay) */
 const PAY_API = 'https://script.google.com/macros/s/AKfycbzQS86-E-n6WvYGi40yoiZoeq4Ei66kZLDyi1o7Yu-9nKc7QoiC7hIijAffCD08N7nl/exec';
-const CHECK_PAYMENT = false;   /* true — пускать только тех, чья почта есть среди оплат */
+const CHECK_PAYMENT = true;    /* true — пускать только тех, чья почта есть среди оплат */
 async function payLookup(m){ if (!PAY_API) return null; try { const r = await fetch(PAY_API + '?email=' + encodeURIComponent(m)); return await r.json(); } catch(e) { return null; } }
 async function setTarif(){
   const m = (S.email || '').trim().toLowerCase();
   let t = OS_HASHES.includes(await sha(m)) ? 'os' : 'self';
   const j = await payLookup(m); if (j && j.paid && j.tarif === 'os') t = 'os';
-  S.tarif = t; save(); fbRender();
+  const was = S.tarif; S.tarif = t; save(); fbRender(); if (was !== t && typeof check === 'function') check();
 }
+/* докупил обратную связь: вернулся на вкладку — перепроверяем тариф */
+let upWait = false;
+document.addEventListener('visibilitychange', () => { if (!document.hidden && S.email && S.tarif !== 'os') setTarif(); });
+addEventListener('focus', () => { if (S.email && S.tarif !== 'os') setTarif(); });
 function openGate(){ $('#gate').hidden = false; $('#gate-err').hidden = true; $('#gate-mail').value = S.email || ''; setTimeout(() => $('#gate-mail').focus(), 50); }
 $('#chg-mail').onclick = openGate;
 const gateGo = async () => {
@@ -4367,10 +4372,11 @@ $('#send-fin').onclick = async () => {
   btn.disabled = true; btn.textContent = 'Отправляю…';
   const body = { _subject: 'Практикум «С женщинами легко»: финальное упражнение от ' + S.email, _template: 'table', _captcha: 'false', 'Почта ученика': S.email, 'Факты': S.a.fin1, 'Интерпретации': S.a.fin2, 'Самоценность': S.a.fin3, 'Действие': S.a.fin4, _replyto: S.email };
   try {
-    const r = await fetch('https://formsubmit.co/ajax/' + DASHA_MAIL, { method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(body) });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok || j.success === 'false' || j.success === false) throw 0;
-    S.sentFin = Date.now(); save(); fbRender();
+    /* основная отправка — через нашу Google Таблицу: она пишет ответы в лист и шлёт письмо Даше */
+    const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 15000);
+    await fetch(PAY_API, { method: 'POST', mode: 'no-cors', signal: ctl.signal, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: (typeof SID !== 'undefined' ? SID : S.email), action: 'fb', email: S.email, answers: { 'Факты': S.a.fin1, 'Интерпретации': S.a.fin2, 'Самоценность': S.a.fin3, 'Действие': S.a.fin4 }, event: 'Отправил ответы Даше', cols: { 'E-mail': S.email, 'Ответы Даше отправлены': '@now' } }) });
+    clearTimeout(tm);
+    S.sentFin = Date.now(); save(); fbRender(); check();
   } catch(e) { btn.disabled = false; btn.textContent = 'Отправить Даше ✉'; st.className = 'fb-note err'; st.textContent = 'Не получилось отправить. Проверь интернет и попробуй еще раз.'; }
 };
 function scRender(){ $$('.sc-i').forEach(i => { const t = i.querySelector('textarea'); i.classList.toggle('done', !!t.value.trim()); }); }
@@ -4420,6 +4426,8 @@ if (S.email) sheet('Открыл практикум', { 'E-mail': S.email, 'По
 $('#gate-go') && $('#gate-go').addEventListener('click', () => setTimeout(() => { if (S.email) sheet('Вошёл по почте', { 'E-mail': S.email, '!Первый вход в практикум': '@now', 'Последний вход': '@now' }); }, 600));
 $('#fb-pay').addEventListener('click', () => sheet('Нажал доплату за обратную связь', { 'Нажал доплату за ОС (3 000 ₽)': '@now' }));
 $('#fin9').addEventListener('click', () => sheet('Завершил практикум', { 'Практикум завершён': 'да', 'Дата завершения': '@now' }));
+
+const _chk = check; check = function(){ _chk(); if (S.cur === 7 && S.tarif === 'os' && !S.sentFin && missing(steps[7]) === 1) $('#need').textContent = 'Отправь ответы Даше — после этого откроется следующая остановка.'; };
 </script>
 
 </body>
