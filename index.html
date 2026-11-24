@@ -4398,7 +4398,7 @@ const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzQS86-E-n6WvYGi40yoi
 const SID = (() => { try { let v = localStorage.getItem('zl_sid'); if (!v) { v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('zl_sid', v); } return v; } catch (e) { return 'tmp-' + Date.now().toString(36); } })();
 function sheet(event, cols) {
   if (!SHEET_URL) return;
-  try { fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: SID, event: event || '', page: "Практикум", cols: cols || {} }) }); } catch (e) {}
+  try { fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: SID, event: event || '', page: "Практикум", cols: cols || {} }) }).catch(() => {}); } catch (e) {}
 }
 const UTM = (() => { const q = new URLSearchParams(location.search), o = []; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if (q.get(k)) o.push(k.replace('utm_','') + '=' + q.get(k)); }); return o.join(', '); })();
 
@@ -4428,6 +4428,13 @@ $('#fb-pay').addEventListener('click', () => sheet('Нажал доплату з
 $('#fin9').addEventListener('click', () => sheet('Завершил практикум', { 'Практикум завершён': 'да', 'Дата завершения': '@now' }));
 
 const _chk = check; check = function(){ _chk(); if (S.cur === 7 && S.tarif === 'os' && !S.sentFin && missing(steps[7]) === 1) $('#need').textContent = 'Отправь ответы Даше — после этого откроется следующая остановка.'; };
+
+/* доплата за ОС: запоминаем, а при возвращении в практикум сразу ведём к заданию */
+$('#fb-pay').addEventListener('click', () => { try { localStorage.setItem('zl_up', Date.now()); } catch (e) {} });
+(() => { let up = 0; try { up = +localStorage.getItem('zl_up') || 0; } catch (e) {}
+  if (!up || !S.email || Date.now() - up > 6 * 3600e3) return;
+  setTimeout(async () => { await setTarif(); if (S.tarif === 'os') { try { localStorage.removeItem('zl_up'); } catch (e) {} if (S.done >= 7) { show(7); setTimeout(() => { const f = $('#fb-os'); if (f) f.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400); } } }, 300);
+})();
 </script>
 
 </body>
