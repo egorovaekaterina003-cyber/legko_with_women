@@ -542,7 +542,7 @@ main.page{padding-bottom:20px!important}
 </footer>
 <script>
 /* ссылки на оплату и цены — вставить, когда будут */
-const PAY = { self: 'https://app.leadpay.ru/checkout/71100/', os: 'https://app.leadpay.ru/checkout/71101/' }, PRICE = { self: '', os: '' };
+const PAY = { self: 'https://app.leadpay.ru/checkout/71100/', os: 'https://app.leadpay.ru/checkout/71140/' }, PRICE = { self: '', os: '' };
 document.querySelectorAll('[data-price]').forEach(p => { const v = PRICE[p.dataset.price]; if (v) p.textContent = v; });
 document.querySelectorAll('[data-pay]').forEach(a => { const u = PAY[a.dataset.pay]; if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener'; } else a.addEventListener('click', e => { e.preventDefault(); document.getElementById('pay-note').hidden = false; }); });
 document.querySelectorAll('a[href="#tariffs"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById('tariffs').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); }));
