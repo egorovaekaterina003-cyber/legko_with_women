@@ -2974,6 +2974,24 @@ html,body{overflow-x:clip}
 /* подпись письма: в одну строку справа, губы рядом */
 .greet-t p.sig,.letter-card p.sig{display:block!important;text-align:right!important;white-space:nowrap}
 .greet-t p.sig .kiss{display:inline-block;margin-left:8px;vertical-align:middle}
+/* «подведем итоги»: Валера правее, текст на него не заходит */
+.s9v-hd > .s9v-tx{max-width:60%!important}
+.s9v-hd img{width:42%!important;object-position:40% 10%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%)!important;mask-image:linear-gradient(90deg,transparent,#000 30%)!important}
+@media(max-width:560px){
+ .s9v-hd > .s9v-tx{max-width:58%!important;padding-right:4px!important}
+ .s9v-hd img{width:46%!important;object-position:34% 8%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 34%)!important;mask-image:linear-gradient(90deg,transparent,#000 34%)!important}
+}
+/* «Валера на проводе»: картинка целиком, по центру ячейки */
+.ps-split .pss-l img{object-fit:contain!important;object-position:50% 50%!important;align-self:center!important;height:auto!important;aspect-ratio:1/1;max-height:100%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(0deg,transparent,#000 12%,#000 90%,transparent)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(0deg,transparent,#000 12%,#000 90%,transparent)!important;mask-composite:intersect!important}
+@media (max-width:640px){.ps-split{grid-template-columns:46% minmax(0,1fr)!important}}
+/* результат теста: «3 / 10» в одну строку */
+.qz-res .sc{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;display:inline-flex!important;align-items:baseline;justify-content:center;gap:6px;white-space:nowrap;font-size:72px!important;line-height:1!important}
+.qz-res .sc small{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;display:inline!important;font-size:44px!important;line-height:1!important;opacity:.85}
+/* «Кто такой Валера?»: фигура на всю высоту текста */
+.val-intro{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(140px,34%,280px)!important;gap:16px!important;align-items:stretch!important}
+.val-intro > div{grid-column:1!important;grid-row:1!important;align-self:center}
+.val-intro > img.val-fig{grid-column:2!important;grid-row:1!important;position:static!important;float:none!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;object-fit:contain!important;object-position:50% 50%!important;transform:none!important;align-self:stretch}
+@media (max-width:600px){.val-intro{grid-template-columns:minmax(0,1fr) 44%!important;gap:6px!important}.val-intro > img.val-fig{object-fit:cover!important;object-position:50% 0%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(0deg,transparent,#000 10%)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(0deg,transparent,#000 10%)!important;mask-composite:intersect!important}}
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
