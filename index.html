@@ -4325,12 +4325,26 @@ H[0]=H[0]+a|0;H[1]=H[1]+bb|0;H[2]=H[2]+cc|0;H[3]=H[3]+d|0;H[4]=H[4]+e|0;H[5]=H[5
 return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}
 const sha = async s => { try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); } catch(e) { return sha256js(s); } };
 const mailOk = m => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m);
-async function setTarif(){ S.tarif = OS_HASHES.includes(await sha((S.email || '').trim().toLowerCase())) ? 'os' : 'self'; save(); fbRender(); }
+/* проверка оплаты по таблице (лист «Оплаты», туда пишет LeadPay) */
+const PAY_API = 'https://script.google.com/macros/s/AKfycbzQS86-E-n6WvYGi40yoiZoeq4Ei66kZLDyi1o7Yu-9nKc7QoiC7hIijAffCD08N7nl/exec';
+const CHECK_PAYMENT = false;   /* true — пускать только тех, чья почта есть среди оплат */
+async function payLookup(m){ if (!PAY_API) return null; try { const r = await fetch(PAY_API + '?email=' + encodeURIComponent(m)); return await r.json(); } catch(e) { return null; } }
+async function setTarif(){
+  const m = (S.email || '').trim().toLowerCase();
+  let t = OS_HASHES.includes(await sha(m)) ? 'os' : 'self';
+  const j = await payLookup(m); if (j && j.paid && j.tarif === 'os') t = 'os';
+  S.tarif = t; save(); fbRender();
+}
 function openGate(){ $('#gate').hidden = false; $('#gate-err').hidden = true; $('#gate-mail').value = S.email || ''; setTimeout(() => $('#gate-mail').focus(), 50); }
 $('#chg-mail').onclick = openGate;
 const gateGo = async () => {
   const m = $('#gate-mail').value.trim().toLowerCase();
-  if (!mailOk(m)) { $('#gate-err').hidden = false; return; }
+  if (!mailOk(m)) { $('#gate-err').textContent = 'Похоже, в почте опечатка. Проверь, пожалуйста.'; $('#gate-err').hidden = false; return; }
+  if (CHECK_PAYMENT) {
+    const b = $('#gate-go'), tx = b.textContent; b.disabled = true; b.textContent = 'Проверяем оплату…';
+    const j = await payLookup(m); b.disabled = false; b.textContent = tx;
+    if (j && j.paid === false) { $('#gate-err').textContent = 'Не нашли оплату с этой почтой. Введи почту, которую указывал при оплате, или напиши на ' + DASHA_MAIL; $('#gate-err').hidden = false; return; }
+  }
   S.email = m; $('#gate').hidden = true; save(); view(S.done || S.mode ? 'route' : 'hello'); setTarif();
 };
 $('#gate-go').onclick = gateGo;
