@@ -54,13 +54,25 @@ h1 .pl{display:inline-block;padding:.08em .35em;background:var(--rbg)}
 
 <script>
 /* адрес практикума (страница входа по почте) — вставить ссылку GitHub Pages */
-const COURSE_URL = '';
+const COURSE_URL = 'https://egorovaekaterina003-cyber.github.io/legko_with_women/';
 const go = document.getElementById('go');
 if (COURSE_URL) { go.href = COURSE_URL; } else go.addEventListener('click', e => e.preventDefault());
 document.getElementById('cp').addEventListener('click', e => { const b = e.currentTarget;
   const ok = () => { b.textContent = 'Скопировано'; setTimeout(() => b.textContent = 'Скопировать', 1800); };
   const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('m')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
   try { navigator.clipboard.writeText('dashashamashu@gmail.com').then(ok, sel); } catch (_) { sel(); } });
+
+/* ===== Google Таблица: всё, что делает человек, пишется в одну строку по его ID ===== */
+const SHEET_URL = '';   /* сюда вставить адрес веб-приложения Apps Script (…/exec) */
+const SID = (() => { try { let v = localStorage.getItem('zl_sid'); if (!v) { v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('zl_sid', v); } return v; } catch (e) { return 'tmp-' + Date.now().toString(36); } })();
+function sheet(event, cols) {
+  if (!SHEET_URL) return;
+  try { fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: SID, event: event || '', page: "Оплата прошла", cols: cols || {} }) }); } catch (e) {}
+}
+const UTM = (() => { const q = new URLSearchParams(location.search), o = []; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if (q.get(k)) o.push(k.replace('utm_','') + '=' + q.get(k)); }); return o.join(', '); })();
+
+sheet('Оплата прошла (страница успеха)', { 'Оплата прошла': '@now' });
+go.addEventListener('click', () => sheet('Перешёл в практикум после оплаты', { 'Перешёл в практикум после оплаты': '@now' }));
 </script>
 
 </body>
