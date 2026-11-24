@@ -2992,6 +2992,13 @@ html,body{overflow-x:clip}
 .val-intro > div{grid-column:1!important;grid-row:1!important;align-self:center}
 .val-intro > img.val-fig{grid-column:2!important;grid-row:1!important;position:static!important;float:none!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;object-fit:contain!important;object-position:50% 50%!important;transform:none!important;align-self:stretch}
 @media (max-width:600px){.val-intro{grid-template-columns:minmax(0,1fr) 44%!important;gap:6px!important}.val-intro > img.val-fig{object-fit:cover!important;object-position:50% 0%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(0deg,transparent,#000 10%)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(0deg,transparent,#000 10%)!important;mask-composite:intersect!important}}
+.fin9 #fin9-st{margin-top:12px}
+.fin9 .again9{margin:14px auto 0}
+.again9-ok{max-width:440px;margin:14px auto 0;padding:16px 18px;border-radius:16px;background:rgba(255,154,174,.06);border:1px solid rgba(255,154,174,.3)}
+.again9-ok p{color:#e6d2d6!important;margin:0 0 12px!important}
+.again9-ok div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fin9 .again9{display:inline-flex!important;align-items:center;gap:8px;margin:16px auto 0!important;padding:14px 26px!important;border-radius:40px!important;border:1.5px solid transparent!important;background:linear-gradient(#1a070c,#1a070c) padding-box,linear-gradient(135deg,#ff9aae,#e3193d 50%,#e0ac6a) border-box!important;color:#fff!important;font:800 15px var(--body)!important;box-shadow:0 0 26px -8px #e3193d!important;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.fin9 .again9:hover{transform:translateY(-2px);box-shadow:0 0 34px -6px #e3193d!important}
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
@@ -3763,7 +3770,7 @@ html,body{overflow-x:clip}
     <p class="byb-s">И расскажи потом, как все прошло.</p>
     <p class="byb-sig">Твоя, Даша Шамашу <span>❤️</span></p>
   </div>
-  <div class="fin9"><button class="next" type="button" id="fin9">Завершить практикум ✓</button><p id="fin9-st" hidden>Практикум пройден ❤ Можно вернуться к любой остановке через «Маршрут».</p></div>
+  <div class="fin9"><button class="next" type="button" id="fin9">Завершить практикум ✓</button><div id="fin9-st" hidden><p>Практикум пройден ❤ Можно вернуться к любой остановке через «Маршрут».</p><button type="button" class="back again9" id="again9">↻ Пройти еще раз</button><div class="again9-ok" id="again9-ok" hidden><p>Все ответы и прогресс сотрутся, и практикум начнется с начала. Почта и тариф сохранятся.</p><div><button type="button" class="back" id="again9-no">Отмена</button><button type="button" class="next" id="again9-yes">Да, начать заново</button></div></div></div></div>
   </div>
 </section>
 
@@ -3791,7 +3798,7 @@ const $ = s => document.querySelector(s), $$ = (s, r = document) => [...r.queryS
 const steps = $$('.step');
 let S = {a:{}, done:0, cur:0};
 try { const v = JSON.parse(localStorage.getItem(KEY)); if (v && v.a) S = v; } catch(e) {}
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
+let save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 
 /* построить шкалы и чек-листы «Я могу» */
 $$('.scale').forEach(g => { for (let i = 1; i <= 10; i++) { const b = document.createElement('button'); b.type = 'button'; b.textContent = i; b.setAttribute('aria-pressed', 'false'); b.dataset.v = i; g.appendChild(b); } });
@@ -4353,11 +4360,49 @@ function scRender(){ $$('.sc-i').forEach(i => { const t = i.querySelector('texta
 document.addEventListener('input', e => { if (e.target.closest && e.target.closest('.sc-i')) scRender(); });
 $('#go-q9').onclick = () => { S.v9 = 'res4'; save(); check(); window.scrollTo({top:0}); };
 $('#fin9').onclick = () => { S.fin9 = true; save(); check(); show(S.cur); fin9r(); setTimeout(() => $('#fin9').scrollIntoView({behavior:'smooth', block:'center'}), 100); };
+
+$('#again9').onclick = () => { $('#again9-ok').hidden = false; $('#again9').hidden = true; };
+$('#again9-no').onclick = () => { $('#again9-ok').hidden = true; $('#again9').hidden = false; };
+$('#again9-yes').onclick = () => { if (typeof sheet === 'function') sheet('Начал практикум заново', { 'Начинал заново': '@now' }); const keep = { email: S.email, tarif: S.tarif }; S = { a: {}, done: 0, cur: 0, email: keep.email, tarif: keep.tarif }; save(); setTimeout(() => { location.hash = ''; location.reload(); }, 300); };
 function fin9r(){ const b = $('#fin9'); if (!b) return; b.disabled = !!S.fin9; b.textContent = S.fin9 ? 'Практикум пройден ✓' : 'Завершить практикум ✓'; $('#fin9-st').hidden = !S.fin9; }
 fin9r();
 if (S.email) setTarif(); else fbRender();
 
 showLanding();
+
+/* ===== Google Таблица: всё, что делает человек, пишется в одну строку по его ID ===== */
+const SHEET_URL = '';   /* сюда вставить адрес веб-приложения Apps Script (…/exec) */
+const SID = (() => { try { let v = localStorage.getItem('zl_sid'); if (!v) { v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('zl_sid', v); } return v; } catch (e) { return 'tmp-' + Date.now().toString(36); } })();
+function sheet(event, cols) {
+  if (!SHEET_URL) return;
+  try { fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: SID, event: event || '', page: "Практикум", cols: cols || {} }) }); } catch (e) {}
+}
+const UTM = (() => { const q = new URLSearchParams(location.search), o = []; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if (q.get(k)) o.push(k.replace('utm_','') + '=' + q.get(k)); }); return o.join(', '); })();
+
+const LBL = {};
+document.querySelectorAll('[data-k]').forEach(el => {
+  const k = el.dataset.k; if (LBL[k]) return;
+  const step = el.closest('section.step'), sn = step ? [...document.querySelectorAll('section.step')].indexOf(step) + 1 : 0;
+  let l = el.getAttribute('aria-label') || el.placeholder || '';
+  const lab = el.closest('label') || (el.id && document.querySelector('label[for="' + el.id + '"]'));
+  if (lab) l = lab.textContent.trim();
+  if (!l) { const q = el.closest('.field,.num,.sc-i,.val-card,.fs-row,.chk'); const p = q && (q.previousElementSibling || q.parentElement); l = p ? (p.textContent || '').trim().slice(0, 60) : k; }
+  LBL[k] = (sn ? 'Ост. ' + sn + ' · ' : '') + l.replace(/\s+/g, ' ').slice(0, 80) + ' [' + k + ']';
+});
+let sheetT = null, sheetLast = '';
+function sheetSync() {
+  const c = { 'E-mail': S.email || '', 'Тариф в практикуме': S.tarif === 'os' ? 'С обратной связью' : 'Без обратной связи', 'Темп': S.mode === 'push' ? 'С пенделем' : (S.mode ? 'Без спешки' : ''), 'Пройдено остановок': (S.done || 0) + ' из 9', 'Сейчас на остановке': (S.cur || 0) + 1, 'Практикум завершён': S.fin9 ? 'да' : 'нет', 'Последняя активность': '@now' };
+  Object.keys(S.a || {}).forEach(k => { let v = S.a[k]; if (v === true) v = 'да'; else if (v === false) v = 'нет'; if (v !== '' && v != null) c[LBL[k] || ('Ответ [' + k + ']')] = typeof v === 'object' ? JSON.stringify(v) : v; });
+  const s = JSON.stringify(c); if (s === sheetLast) return; sheetLast = s; sheet('', c);
+}
+const _save = save; save = () => { _save(); clearTimeout(sheetT); sheetT = setTimeout(sheetSync, 2500); };
+let lastStop = -1;
+setInterval(() => { if (S.email && S.done !== lastStop) { if (lastStop >= 0 && S.done > lastStop) sheet('Прошёл остановку ' + S.done, { ['Остановка ' + S.done + ' пройдена']: '@now' }); lastStop = S.done; } }, 3000);
+addEventListener('pagehide', () => { clearTimeout(sheetT); sheetSync(); });
+if (S.email) sheet('Открыл практикум', { 'E-mail': S.email, 'Последний вход': '@now', '!UTM': UTM });
+$('#gate-go') && $('#gate-go').addEventListener('click', () => setTimeout(() => { if (S.email) sheet('Вошёл по почте', { 'E-mail': S.email, '!Первый вход в практикум': '@now', 'Последний вход': '@now' }); }, 600));
+$('#fb-pay').addEventListener('click', () => sheet('Нажал доплату за обратную связь', { 'Нажал доплату за ОС (3 000 ₽)': '@now' }));
+$('#fin9').addEventListener('click', () => sheet('Завершил практикум', { 'Практикум завершён': 'да', 'Дата завершения': '@now' }));
 </script>
 
 </body>
