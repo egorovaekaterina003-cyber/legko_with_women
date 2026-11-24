@@ -2931,6 +2931,49 @@ html,body{overflow-x:clip}
  .bb-row > .bb-tx{grid-row:2!important}
  .bb-sign{font-size:9px!important;letter-spacing:1.4px!important}
 }
+/* видеоурок: спрятать круглую виньетку исходного фото — затемнение по краям */
+.vid-cine{isolation:isolate}
+.vid-cine::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0b0204 0%,rgba(11,2,4,.6) 7%,transparent 16%,transparent 84%,rgba(11,2,4,.6) 93%,#0b0204 100%),linear-gradient(180deg,#0b0204 0%,transparent 9%)}
+.vci-tx{position:relative;z-index:2}
+@media (min-width:641px){.vid-cine::before{background:linear-gradient(90deg,transparent 88%,rgba(11,2,4,.7) 95%,#0b0204 100%),linear-gradient(180deg,#0b0204 0%,transparent 8%)}}
+/* «Валера на проводе»: фото на всю высоту реплик */
+.pss-l img{align-self:stretch!important;height:100%!important;max-height:none!important;min-height:0!important;padding:0!important;object-fit:cover!important;object-position:50% 18%!important;-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent),linear-gradient(0deg,transparent,#000 14%)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,#000 70%,transparent),linear-gradient(0deg,transparent,#000 14%)!important;mask-composite:intersect!important}
+@media (min-width:641px){.ps-split{grid-template-columns:240px minmax(0,1fr)!important}.pss-th{align-self:center}}
+@media (max-width:640px){.ps-split{grid-template-columns:42% minmax(0,1fr)!important}.pss-th{padding-left:6px!important}.pss-th span{font-size:15px!important;padding:8px 12px!important}}
+/* «Валера, подведем итоги»: фото на всю высоту карточки, края растворяются */
+.s9v{position:relative!important}
+.s9v-hd{position:static!important;display:block!important;padding:0!important}
+.s9v-hd > .s9v-tx{position:relative;z-index:1;max-width:64%;padding:24px 0 22px 26px!important}
+.s9v-hd img{position:absolute!important;top:0!important;right:0!important;bottom:0!important;height:100%!important;width:40%!important;margin:0!important;object-fit:cover!important;object-position:50% 12%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%)!important;mask-image:linear-gradient(90deg,transparent,#000 35%)!important;-webkit-mask-composite:source-over!important;mask-composite:add!important}
+@media(max-width:560px){
+ .s9v-hd > .s9v-tx{max-width:66%;padding:20px 0 18px 18px!important}
+ .s9v-hd img{width:46%!important;object-position:55% 10%!important}
+}
+/* Валера у «выбора»: без рамки, края растворяются — не видно обрезки */
+.vg-top img{border-radius:0!important;box-shadow:none!important;object-position:42% 8%!important;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 70%,transparent 100%),linear-gradient(0deg,transparent 0,#000 18%,#000 92%,transparent 100%)!important;-webkit-mask-composite:source-in!important;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 70%,transparent 100%),linear-gradient(0deg,transparent 0,#000 18%,#000 92%,transparent 100%)!important;mask-composite:intersect!important}
+.vg-top{grid-template-columns:clamp(150px,32%,240px) minmax(0,1fr)!important;gap:8px!important}
+@media(max-width:600px){.vg-top{grid-template-columns:35% minmax(0,1fr)!important;gap:4px!important}}
+/* кнопки всегда в одной строке */
+@media (max-width:560px){
+ .foot,.ob-foot{flex-wrap:nowrap!important}
+ .foot{flex-wrap:wrap!important}
+ .foot > .back,.ob-foot > .back{flex:0 0 auto!important}
+ .foot > .next,.ob-foot > .next{flex:0 1 auto!important;max-width:none!important;min-width:0!important}
+ .ob-foot > p,.ob-foot > span{flex-basis:100%}
+}
+/* бейдж «остановка пройдена»: аккуратная печать без наложений */
+.stop-head.has-timer > .sh-timer.ok.ok{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:radial-gradient(circle at 50% 40%,rgba(116,214,160,.18),#140508 70%)!important}
+.stop-head.has-timer > .sh-timer.ok.ok > *{position:static!important;transform:none!important;inset:auto!important;width:auto!important;margin:0!important}
+.stop-head.has-timer > .sh-timer.ok.ok .t-orn{display:none!important}
+.stop-head.has-timer > .sh-timer.ok.ok b{order:1;display:grid;place-items:center;width:46px!important;height:46px!important;border-radius:50%;background:#74d6a0!important;color:#0d2a1c!important;-webkit-text-fill-color:#0d2a1c;font:800 24px/1 var(--body)!important;box-shadow:0 0 0 5px rgba(116,214,160,.18),0 0 20px rgba(116,214,160,.55)}
+.stop-head.has-timer > .sh-timer.ok.ok .t-k{order:0;font:700 8.5px/1 var(--body)!important;letter-spacing:2px!important;color:#cfeedd!important}
+.stop-head.has-timer > .sh-timer.ok.ok .t-u{order:2;font:800 10px/1 var(--body)!important;letter-spacing:2.4px!important;color:#74d6a0!important;text-transform:uppercase}
+.stop-head.has-timer > .sh-timer.ok.ok b{top:auto!important;line-height:46px!important;padding:0!important;text-shadow:none!important;filter:none!important}
+.stop-head.has-timer > .sh-timer.ok.ok .t-k{color:#cfeedd!important;-webkit-text-fill-color:#cfeedd;background:none!important}
+@media (max-width:560px){.stop-head.has-timer > .sh-timer.ok.ok{gap:4px}.stop-head.has-timer > .sh-timer.ok.ok b{width:36px!important;height:36px!important;line-height:36px!important;font-size:18px!important}.stop-head.has-timer > .sh-timer.ok.ok .t-k{font-size:7px!important;letter-spacing:1.2px!important}.stop-head.has-timer > .sh-timer.ok.ok .t-u{font-size:8px!important;letter-spacing:1.4px!important}}
+/* подпись письма: в одну строку справа, губы рядом */
+.greet-t p.sig,.letter-card p.sig{display:block!important;text-align:right!important;white-space:nowrap}
+.greet-t p.sig .kiss{display:inline-block;margin-left:8px;vertical-align:middle}
 </style>
 <style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
@@ -2977,7 +3020,7 @@ html,body{overflow-x:clip}
       <p class="script sig">Обнимаю, Даша <span class="kiss">💋</span></p>
     </div>
   </div>
-  <div class="ob-foot"><button class="back" type="button" id="chg-mail">← Сменить почту</button><button class="next" type="button" data-go="inside">Дальше: что внутри практикума →</button></div>
+  <div class="ob-foot"><button class="back" type="button" id="chg-mail">← Сменить почту</button><button class="next" type="button" data-go="inside">Что внутри →</button></div>
 </section>
 
 <section id="inside" class="intro" hidden aria-label="От мыслей к действиям">
