@@ -554,6 +554,21 @@ document.getElementById('lg-copy').addEventListener('click', e => { const b = e.
   const ok = () => { b.textContent = 'Скопировано'; setTimeout(() => b.textContent = 'Скопировать', 1800); };
   const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('lg-mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
   try { navigator.clipboard.writeText(t).then(ok, sel); } catch (_) { sel(); } });
+
+/* ===== Google Таблица: всё, что делает человек, пишется в одну строку по его ID ===== */
+const SHEET_URL = '';   /* сюда вставить адрес веб-приложения Apps Script (…/exec) */
+const SID = (() => { try { let v = localStorage.getItem('zl_sid'); if (!v) { v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('zl_sid', v); } return v; } catch (e) { return 'tmp-' + Date.now().toString(36); } })();
+function sheet(event, cols) {
+  if (!SHEET_URL) return;
+  try { fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sid: SID, event: event || '', page: "Лендинг", cols: cols || {} }) }); } catch (e) {}
+}
+const UTM = (() => { const q = new URLSearchParams(location.search), o = []; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if (q.get(k)) o.push(k.replace('utm_','') + '=' + q.get(k)); }); return o.join(', '); })();
+
+sheet('Открыл лендинг', { '!Первый визит на лендинг': '@now', 'Последний визит на лендинг': '@now', '!Источник (откуда пришёл)': document.referrer || 'прямой заход', '!UTM': UTM });
+document.querySelectorAll('[data-pay]').forEach(a => a.addEventListener('click', () => {
+  const t = a.dataset.pay === 'os' ? 'С обратной связью · 8 500 ₽' : 'Без обратной связи · 5 500 ₽';
+  sheet('Нажал оплату: ' + t, { 'Выбранный тариф на лендинге': t, 'Клик на оплату': '@now' });
+}));
 </script>
 
 </body>
