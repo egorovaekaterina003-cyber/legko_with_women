@@ -535,20 +535,20 @@ main.page{padding-bottom:20px!important}
     <div>ОГРНИП 326508100426529</div>
   </div>
   <div class="lg-links">
-    <a href="#" data-doc="offer">Договор публичной оферты</a>
-    <a href="#" data-doc="pd">Согласие на обработку персональных данных</a>
+    <a href="https://docs.google.com/document/d/1FdWXt81-gg5V4lBAK4BQNSDip1-lNV4r/edit" target="_blank" rel="noopener" data-doc="offer">Договор публичной оферты</a>
+    <a href="https://docs.google.com/document/d/1NLhp2CXoyUQlDvfWpjQzBhwM3QFGrFwG/edit" target="_blank" rel="noopener" data-doc="pd">Согласие на обработку персональных данных</a>
   </div>
   <div class="lg-c">© 2026 Даша Шамашу</div>
 </footer>
 <script>
 /* ссылки на оплату и цены — вставить, когда будут */
-const PAY = { self: 'https://app.leadpay.ru/checkout/71100/', os: 'https://app.leadpay.ru/checkout/71140/' }, PRICE = { self: '', os: '' };
+const PAY = { self: 'https://app.leadpay.ru/checkout/71100/', os: 'https://app.leadpay.ru/checkout/71101/' }, PRICE = { self: '', os: '' };
 document.querySelectorAll('[data-price]').forEach(p => { const v = PRICE[p.dataset.price]; if (v) p.textContent = v; });
 document.querySelectorAll('[data-pay]').forEach(a => { const u = PAY[a.dataset.pay]; if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener'; } else a.addEventListener('click', e => { e.preventDefault(); document.getElementById('pay-note').hidden = false; }); });
 document.querySelectorAll('a[href="#tariffs"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById('tariffs').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); }));
 
 /* подвал: копирование почты и ссылки на документы (вставить, когда будут) */
-const DOCS = { offer: '', pd: '' };
+const DOCS = { offer: 'https://docs.google.com/document/d/1FdWXt81-gg5V4lBAK4BQNSDip1-lNV4r/edit', pd: 'https://docs.google.com/document/d/1NLhp2CXoyUQlDvfWpjQzBhwM3QFGrFwG/edit' };
 document.querySelectorAll('[data-doc]').forEach(a => { const u = DOCS[a.dataset.doc]; if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener'; } else a.addEventListener('click', e => e.preventDefault()); });
 document.getElementById('lg-copy').addEventListener('click', e => { const b = e.currentTarget, t = 'dashashamashu@gmail.com';
   const ok = () => { b.textContent = 'Скопировано'; setTimeout(() => b.textContent = 'Скопировать', 1800); };
