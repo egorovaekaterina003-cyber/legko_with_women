@@ -556,7 +556,7 @@ document.getElementById('lg-copy').addEventListener('click', e => { const b = e.
   try { navigator.clipboard.writeText(t).then(ok, sel); } catch (_) { sel(); } });
 
 /* ===== Google Таблица: всё, что делает человек, пишется в одну строку по его ID ===== */
-const SHEET_URL = '';   /* сюда вставить адрес веб-приложения Apps Script (…/exec) */
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzQS86-E-n6WvYGi40yoiZoeq4Ei66kZLDyi1o7Yu-9nKc7QoiC7hIijAffCD08N7nl/exec';   /* сюда вставить адрес веб-приложения Apps Script (…/exec) */
 const SID = (() => { try { let v = localStorage.getItem('zl_sid'); if (!v) { v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('zl_sid', v); } return v; } catch (e) { return 'tmp-' + Date.now().toString(36); } })();
 function sheet(event, cols) {
   if (!SHEET_URL) return;
