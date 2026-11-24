@@ -4348,7 +4348,7 @@ const gateGo = async () => {
   if (CHECK_PAYMENT) {
     const b = $('#gate-go'), tx = b.textContent; b.disabled = true; b.textContent = 'Проверяем оплату…';
     const j = await payLookup(m); b.disabled = false; b.textContent = tx;
-    if (j && j.paid === false) { $('#gate-err').textContent = 'Не нашли оплату с этой почтой. Введи почту, которую указывал при оплате, или напиши на ' + DASHA_MAIL; $('#gate-err').hidden = false; return; }
+    if (j && j.paid === false) { $('#gate-err').textContent = 'Не нашли оплату с этой почтой. Введи почту, которую указывал при оплате, или напиши на ' + DASHA_MAIL + '.'; $('#gate-err').hidden = false; return; }
   }
   S.email = m; $('#gate').hidden = true; save(); view(S.done || S.mode ? 'route' : 'hello'); setTarif();
 };
